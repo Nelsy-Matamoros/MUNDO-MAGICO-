@@ -19,11 +19,10 @@ def temperatura_promedio(ciudades_temperaturas):
 
 # Creamos un diccionario de ciudades y temperaturas
 ciudades_temperaturas = {
-    "Nueva York": [22, 25, 26, 24, 23],
-    "Los Ángeles": [28, 30, 29, 31, 27],
-    "Chicago": [21, 20, 22, 18, 19],
-    "Miami": [32, 33, 34, 30, 32],
-    "Dallas": [26, 28, 27, 29, 25]
+    "Quito": [10, 18, 12, 8, 10],
+    "Puyos": [18, 18, 19, 18, 17],
+    "Esmeraldas": [20, 19, 19, 28, 25],
+
 }
 
 # Llamamos a la función para calcular las temperaturas promedio
