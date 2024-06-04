@@ -42,6 +42,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Python.POO.executor": "Run",
     "Python.ejercicio 1 POO.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
@@ -133,7 +134,31 @@
       <option name="project" value="LOCAL" />
       <updated>1717525186499</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="S.02 POO">
+      <option name="closed" value="true" />
+      <created>1717525492613</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1717525492613</updated>
+    </task>
+    <task id="LOCAL-00010" summary="S.02 POO">
+      <option name="closed" value="true" />
+      <created>1717525527374</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1717525527374</updated>
+    </task>
+    <task id="LOCAL-00011" summary="S.02 POO">
+      <option name="closed" value="true" />
+      <created>1717525565043</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1717525565043</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
