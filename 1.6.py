@@ -1,22 +1,12 @@
-#diccionario informacion_personal
+class Vehiculo:
+    def __init__(self, marca, modelo, anio):
+        self._marca = marca  # Atributo protegido
+        self._modelo = modelo  # Atributo protegido
+        self._anio = anio  # Atributo protegido
 
-diccionario={"nombre":"Eduardo","edad":"30","ciudad":"Quito","profecion":"Ingenerio"}
+    def descripcion(self):
+        return f"Marca: {self._marca}, Modelo: {self._modelo}, Año: {self._anio}"
 
-#Acceder y Modificar Valores
-
-diccionario["ciudad"]="Cuenca"
-diccionario["profecion"]="Ingeniero"
-
-#Verificar Existencia de Claves
-
-diccionario["telefono"]="0986922436"
-
-#Eliminar una Clave
-del(diccionario["edad"])
-
-#Imprimir el Diccionario Final
-
-print(diccionario)
 
 
 
