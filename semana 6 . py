@@ -1,0 +1,228 @@
+#Crear una lista enlazada con 50 números enteros, del 1 al 999.
+
+using System;
+
+public class Nodo
+{
+    public int dato;
+    public Nodo siguiente;
+
+    public Nodo(int dato)
+    {
+        this.dato = dato;
+        siguiente = null;
+    }
+}
+
+public class ListaEnlazada
+{
+    public Nodo cabeza;
+
+    public void AgregarNodo(int dato)
+    {
+        Nodo nuevoNodo = new Nodo(dato);
+        if (cabeza == null)
+        {
+            cabeza = nuevoNodo;
+        }
+        else
+        {
+            Nodo actual = cabeza;
+            while (actual.siguiente != null)
+            {
+                actual = actual.siguiente;
+            }
+            actual.siguiente = nuevoNodo;
+        }
+    }
+
+    public void EliminarFueraDeRango(int minimo, int maximo)
+    {
+        Nodo actual = cabeza;
+        Nodo anterior = null;
+        while (actual != null)
+        {
+            if (actual.dato < minimo || actual.dato > maximo)
+            {
+                if (anterior == null)
+                {
+                    cabeza = actual.siguiente;
+                }
+                else
+                {
+                    anterior.siguiente = actual.siguiente;
+                }
+            }
+            else
+            {
+                anterior = actual;
+            }
+            actual = actual.siguiente;
+        }
+    }
+
+    public void ImprimirLista()
+    {
+        Nodo actual = cabeza;
+        while (actual != null)
+        {
+            Console.Write(actual.dato + " ");
+            actual = actual.siguiente;
+        }
+        Console.WriteLine();
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Random random = new Random();
+        ListaEnlazada lista = new ListaEnlazada();
+
+        // Crear la lista con 50 números aleatorios
+        for (int i = 0; i < 50; i++)
+        {
+            int numeroAleatorio = random.Next(1, 1000);
+            lista.AgregarNodo(numeroAleatorio);
+        }
+
+        Console.WriteLine("Lista original:");
+        lista.ImprimirLista();
+
+        // Leer el rango del usuario
+        Console.Write("Ingrese el valor mínimo del rango: ");
+        int minimo = int.Parse(Console.ReadLine());
+        Console.Write("Ingrese el valor máximo del rango: ");
+        int maximo = int.Parse(Console.ReadLine());
+
+        // Eliminar los nodos fuera del rango
+        lista.EliminarFueraDeRango(minimo, maximo);
+
+        Console.WriteLine("Lista después de eliminar los nodos fuera del rango:");
+        lista.ImprimirLista();
+    }
+}
+
+
+#registro de los vehículos.
+
+public class Vehiculo
+{
+    public string Placa { get; set; }
+    public string Marca { get; set; }
+    public string Modelo { get; set; }
+    public int Año { get; set; }
+    public double Precio { get; set; }
+    public Vehiculo Siguiente { get; set; }
+}
+
+public class Estacionamiento
+{
+    private Vehiculo cabeza;
+
+    public void AgregarVehiculo(Vehiculo vehiculo)
+    {
+        // ... (implementación para agregar un vehículo a la lista)
+    }
+
+    public Vehiculo BuscarVehiculoPorPlaca(string placa)
+    {
+        // ... (implementación para buscar un vehículo por placa)
+    }
+
+    public void VerVehiculosPorAño(int año)
+    {
+        // ... (implementación para mostrar vehículos de un año específico)
+    }
+
+    public void VerTodosLosVehiculos()
+    {
+        // ... (implementación para mostrar todos los vehículos)
+    }
+
+    public void EliminarVehiculo(string placa)
+    {
+        // ... (implementación para eliminar un vehículo por placa)
+    }
+}
+
+using System;
+
+// ... (Clase Vehiculo ya definida)
+
+public class Estacionamiento
+{
+    private Vehiculo cabeza;
+
+    public void AgregarVehiculo(Vehiculo vehiculo)
+    {
+        vehiculo.Siguiente = cabeza;
+        cabeza = vehiculo;
+    }
+
+    public Vehiculo BuscarVehiculoPorPlaca(string placa)
+    {
+        Vehiculo actual = cabeza;
+        while (actual != null && actual.Placa != placa)
+        {
+            actual = actual.Siguiente;
+        }
+        return actual;
+    }
+
+    public void VerVehiculosPorAño(int año)
+    {
+        Vehiculo actual = cabeza;
+        Console.WriteLine($"Vehículos del año {año}:");
+        while (actual != null)
+        {
+            if (actual.Año == año)
+            {
+                Console.WriteLine($"Placa: {actual.Placa}, Marca: {actual.Marca}, Modelo: {actual.Modelo}");
+            }
+            actual = actual.Siguiente;
+        }
+    }
+
+    public void VerTodosLosVehiculos()
+    {
+        Vehiculo actual = cabeza;
+        Console.WriteLine("Todos los vehículos:");
+        while (actual != null)
+        {
+            Console.WriteLine($"Placa: {actual.Placa}, Marca: {actual.Marca}, Modelo: {actual.Modelo}, Año: {actual.Año}, Precio: {actual.Precio}");
+            actual = actual.Siguiente;
+        }
+    }
+
+    public void EliminarVehiculo(string placa)
+    {
+        if (cabeza == null) return;
+
+        if (cabeza.Placa == placa)
+        {
+            cabeza = cabeza.Siguiente;
+            return;
+        }
+
+        Vehiculo actual = cabeza;
+        while (actual.Siguiente != null && actual.Siguiente.Placa != placa)
+        {
+            actual = actual.Siguiente;
+        }
+
+        if (actual.Siguiente != null)
+        {
+            actual.Siguiente = actual.Siguiente.Siguiente;
+        }
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        // ... (Código para interactuar con el usuario y llamar a los métodos del estacionamiento)
+    }
+}
