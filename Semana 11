@@ -1,0 +1,175 @@
+import sqlite3
+
+# Clase Producto
+
+class Producto:
+    def __init__(self, id_producto, nombre, cantidad, precio):
+        self.id_producto = id_producto
+        self.nombre = nombre
+        self.cantidad = cantidad
+        self.precio = precio
+
+    # Métodos getters y setters
+    def get_id(self):
+        return self.id_producto
+
+    def get_nombre(self):
+        return self.nombre
+
+    def get_cantidad(self):
+        return self.cantidad
+
+    def get_precio(self):
+        return self.precio
+
+    def set_cantidad(self, nueva_cantidad):
+        self.cantidad = nueva_cantidad
+
+    def set_precio(self, nuevo_precio):
+        self.precio = nuevo_precio
+
+
+# Clase Inventario
+
+class Inventario:
+    def __init__(self):
+        # Diccionario para almacenar los productos: {id: Producto}
+        self.productos = {}
+        self.conexion = sqlite3.connect("inventario.db")
+        self.cursor = self.conexion.cursor()
+        self.crear_tabla()
+
+    def crear_tabla(self):
+        """Crea la tabla productos si no existe"""
+        self.cursor.execute('''
+            CREATE TABLE IF NOT EXISTS productos (
+                id INTEGER PRIMARY KEY,
+                nombre TEXT NOT NULL,
+                cantidad INTEGER NOT NULL,
+                precio REAL NOT NULL
+            )
+        ''')
+        self.conexion.commit()
+
+    def añadir_producto(self, producto):
+        """Añadir producto al diccionario y a SQLite"""
+        if producto.get_id() in self.productos:
+            print("⚠️ El producto ya existe en el inventario.")
+        else:
+            self.productos[producto.get_id()] = producto
+            self.cursor.execute(
+                "INSERT INTO productos (id, nombre, cantidad, precio) VALUES (?, ?, ?, ?)",
+                (producto.get_id(), producto.get_nombre(), producto.get_cantidad(), producto.get_precio())
+            )
+            self.conexion.commit()
+            print("✅ Producto añadido correctamente.")
+
+    def eliminar_producto(self, id_producto):
+        """Eliminar producto del inventario y de SQLite"""
+        if id_producto in self.productos:
+            del self.productos[id_producto]
+            self.cursor.execute("DELETE FROM productos WHERE id=?", (id_producto,))
+            self.conexion.commit()
+            print("🗑️ Producto eliminado correctamente.")
+        else:
+            print("⚠️ El producto no existe en el inventario.")
+
+    def actualizar_producto(self, id_producto, cantidad=None, precio=None):
+        """Actualizar cantidad o precio de un producto"""
+        if id_producto in self.productos:
+            producto = self.productos[id_producto]
+            if cantidad is not None:
+                producto.set_cantidad(cantidad)
+                self.cursor.execute("UPDATE productos SET cantidad=? WHERE id=?", (cantidad, id_producto))
+            if precio is not None:
+                producto.set_precio(precio)
+                self.cursor.execute("UPDATE productos SET precio=? WHERE id=?", (precio, id_producto))
+            self.conexion.commit()
+            print("✏️ Producto actualizado correctamente.")
+        else:
+            print("⚠️ El producto no existe.")
+
+    def buscar_producto(self, nombre):
+        """Buscar producto por nombre"""
+        resultados = [p for p in self.productos.values() if p.get_nombre().lower() == nombre.lower()]
+        if resultados:
+            for p in resultados:
+                print(f"🔎 {p.get_id()} | {p.get_nombre()} | Cantidad: {p.get_cantidad()} | Precio: ${p.get_precio()}")
+        else:
+            print("⚠️ No se encontró el producto.")
+
+    def mostrar_productos(self):
+        """Mostrar todos los productos"""
+        if self.productos:
+            print("📦 Inventario actual:")
+            for p in self.productos.values():
+                print(f"{p.get_id()} | {p.get_nombre()} | Cantidad: {p.get_cantidad()} | Precio: ${p.get_precio()}")
+        else:
+            print("⚠️ El inventario está vacío.")
+
+    def cargar_desde_bd(self):
+        """Carga productos de SQLite a la colección en memoria"""
+        self.cursor.execute("SELECT * FROM productos")
+        filas = self.cursor.fetchall()
+        for fila in filas:
+            id_producto, nombre, cantidad, precio = fila
+            self.productos[id_producto] = Producto(id_producto, nombre, cantidad, precio)
+
+
+# Interfaz de Usuario (Consola)
+
+def menu():
+    inventario = Inventario()
+    inventario.cargar_desde_bd()
+
+    while True:
+        print("\n--- 📋 Menú de Inventario ---")
+        print("1. Añadir producto")
+        print("2. Eliminar producto")
+        print("3. Actualizar producto")
+        print("4. Buscar producto por nombre")
+        print("5. Mostrar todos los productos")
+        print("6. Salir")
+
+        opcion = input("Seleccione una opción: ")
+
+        if opcion == "1":
+            id_p = int(input("ID del producto: "))
+            nombre = input("Nombre: ")
+            cantidad = int(input("Cantidad: "))
+            precio = float(input("Precio: "))
+            producto = Producto(id_p, nombre, cantidad, precio)
+            inventario.añadir_producto(producto)
+
+        elif opcion == "2":
+            id_p = int(input("Ingrese el ID del producto a eliminar: "))
+            inventario.eliminar_producto(id_p)
+
+        elif opcion == "3":
+            id_p = int(input("Ingrese el ID del producto a actualizar: "))
+            cantidad = input("Nueva cantidad (Enter para omitir): ")
+            precio = input("Nuevo precio (Enter para omitir): ")
+            inventario.actualizar_producto(
+                id_p,
+                cantidad=int(cantidad) if cantidad else None,
+                precio=float(precio) if precio else None
+            )
+
+        elif opcion == "4":
+            nombre = input("Ingrese el nombre del producto a buscar: ")
+            inventario.buscar_producto(nombre)
+
+        elif opcion == "5":
+            inventario.mostrar_productos()
+
+        elif opcion == "6":
+            print("👋 Saliendo del sistema de inventario...")
+            break
+
+        else:
+            print("⚠️ Opción no válida. Intente nuevamente.")
+
+
+if __name__ == "__main__":
+    menu()
+
