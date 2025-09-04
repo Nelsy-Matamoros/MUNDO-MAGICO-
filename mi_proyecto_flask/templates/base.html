@@ -2,25 +2,20 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>{{ title }} - Mi Proyecto Flask</title>
+    <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <!-- Barra de navegación -->
-    <nav>
-        <a href="{{ url_for('index') }}">Inicio</a> |
-        <a href="{{ url_for('about') }}">Acerca de</a>
-    </nav>
-
-    <hr>
-
-    <!-- Contenido que cambiará en cada página -->
+    <header>
+        <h1>Proyecto Flask</h1>
+        <nav>
+            <a href="{{ url_for('index') }}">Inicio</a> |
+            <a href="{{ url_for('formulario') }}">Formulario</a> |
+            <a href="{{ url_for('resultado') }}">Resultados</a>
+        </nav>
+    </header>
     <main>
         {% block content %}{% endblock %}
     </main>
-
-    <footer>
-        <p>© 2025 Mi Proyecto Flask</p>
-    </footer>
 </body>
 </html>
